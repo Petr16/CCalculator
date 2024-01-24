@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CCalculator.Models.DataInner>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-controller="DataInners" asp-action="Create">Create New</a>
+    <button id="addData">Add data</button>
+</p>
+<table id="dataInner" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanSum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanTerm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.LoanSum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanTerm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanRate)
+            </td> *@
+            <td>
+               @item.LoanSum
+            </td>
+            <td>
+                @item.LoanTerm
+            </td>
+            <td>
+                @item.LoanRate
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<button id="addData">Add data inner</button>
+
+<script>
+    $(document).ready(function () {
+        // Обработка нажатия кнопки "Add data"
+        $("#addData").click(function () {
+            // Генерация случайных данных
+            var newDataInner = {
+                /*Id: Math.floor(Math.random() * 1000) + 1,
+                Name: "New Data",
+                Age: Math.floor(Math.random() * 30) + 20*/
+                LoanSum: 1,
+                LoanTerm: 1,
+                LoanRate: 1// (Math.random() * (50 - 20) + 20).toFixed(2)
+            };
+
+            // Добавление новой строки в таблицу
+            $("#dataInner tbody").append(
+                "<tr>" +
+                "<td>" +  newDataInner.LoanSum "</td>" +
+                "<td>" + newDataInner.LoanTerm + "</td>" +
+                "<td>" + newDataInner.LoanRate + "</td>" +
+                "</tr>"
+            );
+        });
+    });
+</script>

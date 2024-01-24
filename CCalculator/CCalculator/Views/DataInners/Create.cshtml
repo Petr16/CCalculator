@@ -1,0 +1,43 @@
+﻿@model CCalculator.Models.DataInner
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>DataInner</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LoanSum" class="control-label"></label>
+                <input asp-for="LoanSum" class="form-control" />
+                <span asp-validation-for="LoanSum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanTerm" class="control-label"></label>
+                <input asp-for="LoanTerm" class="form-control" />
+                <span asp-validation-for="LoanTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoanRate" class="control-label"></label>
+                <input asp-for="LoanRate" class="form-control" type="number" step="any" />
+                <span asp-validation-for="LoanRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
