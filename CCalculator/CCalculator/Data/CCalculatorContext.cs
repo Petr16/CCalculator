@@ -14,7 +14,8 @@ namespace CCalculator.Data
         {
         }
 
-        public DbSet<DataInner> DataInner { get; set; }
+        public DbSet<DataInner> DataInners { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +24,24 @@ namespace CCalculator.Data
                 .HasColumnType("decimal(18,9)");
             modelBuilder.Entity<DataInner>()
                 .Property(e => e.LoanRate)
-                .HasColumnType("decimal(18, 9)");
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.PaymentByBody)
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.PamentByPercent)
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.BalanceOwed)
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<DataInner>()
+                .HasOne(a => a.Pay)
+                .WithOne(b => b.DataInner)
+                .HasForeignKey<Payment>(f => f.DataInnerId);
+
+
+
+
             //base.OnModelCreating(modelBuilder);
         }
     }

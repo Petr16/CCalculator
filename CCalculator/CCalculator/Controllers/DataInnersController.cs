@@ -26,7 +26,7 @@ namespace CCalculator.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index()
         {
-            var dataInner = _context.DataInner;
+            var dataInner = _context.DataInners;
             return View(await dataInner.ToListAsync());
         }
 
@@ -38,7 +38,7 @@ namespace CCalculator.Controllers
                 return NotFound();
             }
 
-            var dataInner = await _context.DataInner
+            var dataInner = await _context.DataInners
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dataInner == null)
             {
@@ -78,7 +78,7 @@ namespace CCalculator.Controllers
                 return NotFound();
             }
 
-            var dataInner = await _context.DataInner.FindAsync(id);
+            var dataInner = await _context.DataInners.FindAsync(id);
             if (dataInner == null)
             {
                 return NotFound();
@@ -129,7 +129,7 @@ namespace CCalculator.Controllers
                 return NotFound();
             }
 
-            var dataInner = await _context.DataInner
+            var dataInner = await _context.DataInners
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dataInner == null)
             {
@@ -144,10 +144,10 @@ namespace CCalculator.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dataInner = await _context.DataInner.FindAsync(id);
+            var dataInner = await _context.DataInners.FindAsync(id);
             if (dataInner != null)
             {
-                _context.DataInner.Remove(dataInner);
+                _context.DataInners.Remove(dataInner);
             }
 
             await _context.SaveChangesAsync();
@@ -156,7 +156,7 @@ namespace CCalculator.Controllers
 
         private bool DataInnerExists(int id)
         {
-            return _context.DataInner.Any(e => e.Id == id);
+            return _context.DataInners.Any(e => e.Id == id);
         }
     }
 }
