@@ -57,8 +57,16 @@
 </table>
 
 <button id="addData">Add data inner</button>
+<a href="@Url.Action("Create", "DataInners")" id="openDataInners">Открыть страницу ввода данных</a>
 
 <script>
+    $(document).ready(function () {
+        $("#openDataInners").click(function (e) {
+            e.preventDefault();
+            window.location.href = $(this).attr("href");
+        });
+    });
+    @*
     $(document).ready(function () {
         // Обработка нажатия кнопки "Add data"
         $("#addData").click(function () {
@@ -81,5 +89,5 @@
                 "</tr>"
             );
         });
-    });
+    });*@
 </script>

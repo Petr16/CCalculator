@@ -35,7 +35,7 @@ namespace CCalculator.Models
         /// Он же и номер платежа - id в таблице DataInners (foreignKey)
         /// </summary>
         public int DataInnerId { get; set; }
-        public DataInner DataInner { get; set; }
+        public DataInner? DataInner { get; set; }
 
     }
 }

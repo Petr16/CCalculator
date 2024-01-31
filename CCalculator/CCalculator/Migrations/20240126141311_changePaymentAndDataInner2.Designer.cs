@@ -4,6 +4,7 @@ using CCalculator.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCalculator.Migrations
 {
     [DbContext(typeof(CCalculatorContext))]
-    partial class CCalculatorContextModelSnapshot : ModelSnapshot
+    [Migration("20240126141311_changePaymentAndDataInner2")]
+    partial class changePaymentAndDataInner2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +72,8 @@ namespace CCalculator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataInnerId");
+                    b.HasIndex("DataInnerId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -77,8 +81,8 @@ namespace CCalculator.Migrations
             modelBuilder.Entity("CCalculator.Models.Payment", b =>
                 {
                     b.HasOne("CCalculator.Models.DataInner", "DataInner")
-                        .WithMany("Payments")
-                        .HasForeignKey("DataInnerId")
+                        .WithOne("Pay")
+                        .HasForeignKey("CCalculator.Models.Payment", "DataInnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -87,7 +91,7 @@ namespace CCalculator.Migrations
 
             modelBuilder.Entity("CCalculator.Models.DataInner", b =>
                 {
-                    b.Navigation("Payments");
+                    b.Navigation("Pay");
                 });
 #pragma warning restore 612, 618
         }

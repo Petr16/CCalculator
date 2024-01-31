@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CCalculator.Data;
 using CCalculator.Models;
+using CCalculator.BLL;
 
 namespace CCalculator.Controllers
 {
@@ -61,9 +62,17 @@ namespace CCalculator.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate")] DataInner dataInner)
         {
+            PaymentCalculate p = new PaymentCalculate(_context);
+            //p.DataInnerId= dataInner.Id;
+            //p.PaymentDate=DateTimeOffset.Now;
+            //p.PaymentByBody = 1;
+            //p.PamentByPercent = 1;
+            //dataInner.Pay = p;
             if (ModelState.IsValid)
             {
                 _context.Add(dataInner);
+                await _context.SaveChangesAsync();
+                p.Calculate(dataInner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
