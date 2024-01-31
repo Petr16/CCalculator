@@ -34,10 +34,15 @@ namespace CCalculator.Data
             modelBuilder.Entity<Payment>()
                 .Property(e => e.BalanceOwed)
                 .HasColumnType("decimal(18,9)");
+            //modelBuilder.Entity<DataInner>()
+            //    .HasOne(a => a.Payments)
+            //    .WithOne(b => b.DataInner)
+            //    .HasForeignKey<Payment>(f => f.DataInnerId);
             modelBuilder.Entity<DataInner>()
-                .HasOne(a => a.Pay)
+                .HasMany(a => a.Payments)
                 .WithOne(b => b.DataInner)
-                .HasForeignKey<Payment>(f => f.DataInnerId);
+                .HasForeignKey(b => b.DataInnerId);
+
 
 
 
