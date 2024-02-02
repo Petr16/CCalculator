@@ -55,6 +55,7 @@ namespace CCalculator.BLL
             for (int i = 0; i < months; i++) 
             {
                 Payment pay = new Payment();
+                pay.DataInnerId = dataInner.Id;
                 pay.PaymentDate = (DateTimeOffset.Now).AddMonths(1+i);
                 
                 
@@ -64,9 +65,9 @@ namespace CCalculator.BLL
                     pay.PamentByPercent = vSumPayment * monthRate;
                     
                 }
-                else
+                else//////////////////TODO
                 {
-                    pay.BalanceOwed=vSumPayment-monthPayment;
+                    pay.BalanceOwed=vSumPayment-(monthPayment*(0+i));
                     pay.PamentByPercent=(vSumPayment-monthPayment)*monthRate;
                 }
                 pay.PaymentByBody = monthPayment - pay.PamentByPercent;

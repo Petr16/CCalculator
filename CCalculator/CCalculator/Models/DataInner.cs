@@ -32,6 +32,6 @@ namespace CCalculator.Models
         public decimal LoanRate { get; set;}
 
         
-        public List<Payment> Payments { get; set; }
+        public List<Payment>? Payments { get; set; }
     }
 }

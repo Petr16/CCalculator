@@ -28,7 +28,21 @@ namespace CCalculator.Controllers
         public async Task<IActionResult> Index()
         {
             var dataInner = _context.DataInners;
-            return View(await dataInner.ToListAsync());
+            //return View(await dataInner.ToListAsync());
+            var result = from di in _context.DataInners
+                         join p in _context.Payments on di.Id equals p.DataInnerId
+                         select new DIP
+                         {
+                             Id=di.Id,
+                             LoanSum=di.LoanSum,
+                             LoanTerm=di.LoanTerm,
+                             LoanRate=di.LoanRate,
+                             PaymentDate=p.PaymentDate,
+                             PaymentByBody=p.PaymentByBody,
+                             PamentByPercent=p.PamentByPercent,
+                             BalanceOwed=p.BalanceOwed
+                         };
+            return View(await result.ToListAsync());
         }
 
         // GET: DataInners/Details/5

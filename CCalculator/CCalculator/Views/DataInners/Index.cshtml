@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CCalculator.Models.DataInner>
+﻿@*@model IEnumerable<CCalculator.Models.DataInner>*@
+@model IEnumerable<CCalculator.Models.DIP>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,6 +22,18 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LoanRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentByBody)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PamentByPercent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BalanceOwed)
             </th>
             <th></th>
         </tr>
@@ -45,6 +58,18 @@
             </td>
             <td>
                 @item.LoanRate
+            </td>
+            <td>
+                @item.PaymentDate
+            </td>
+            <td>
+                @item.PaymentByBody
+            </td>
+            <td>
+                @item.PamentByPercent
+            </td>
+            <td>
+                @item.BalanceOwed
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
