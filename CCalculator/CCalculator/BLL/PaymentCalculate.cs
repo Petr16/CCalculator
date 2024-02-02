@@ -46,7 +46,7 @@ namespace CCalculator.BLL
             ushort months = dataInner.LoanTerm;
 
             //рассчитываем коэффициент аннуитента
-            yearRate = dataInner.LoanRate / 1000;
+            yearRate = dataInner.LoanRate / 100;
             monthRate = yearRate / 12;
             //koefAnnuitent= (monthRate*Math.Pow(1+monthRate,months))
             koefAnnuitent = (monthRate * DecimalEx.Pow(1 + monthRate, months))/(DecimalEx.Pow(1+monthRate,months)-1);
@@ -56,17 +56,20 @@ namespace CCalculator.BLL
             {
                 Payment pay = new Payment();
                 pay.PaymentDate = (DateTimeOffset.Now).AddMonths(1+i);
-                pay.PaymentByBody = i;
-                pay.PamentByPercent = i;
+                
+                
                 if (i == 0)
                 {
                     pay.BalanceOwed = vSumPayment;
+                    pay.PamentByPercent = vSumPayment * monthRate;
+                    
                 }
                 else
                 {
                     pay.BalanceOwed=vSumPayment-monthPayment;
+                    pay.PamentByPercent=(vSumPayment-monthPayment)*monthRate;
                 }
-                
+                pay.PaymentByBody = monthPayment - pay.PamentByPercent;
                 payments.Add(pay);
             }
 
