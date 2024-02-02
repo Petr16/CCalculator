@@ -49,15 +49,24 @@ namespace CCalculator.BLL
             yearRate = dataInner.LoanRate / 1000;
             monthRate = yearRate / 12;
             //koefAnnuitent= (monthRate*Math.Pow(1+monthRate,months))
-            koefAnnuitent = (monthRate * DecimalEx.Pow(1 + monthRate, months));
-
-            for (int i = 1; i < months + 1; i++) 
+            koefAnnuitent = (monthRate * DecimalEx.Pow(1 + monthRate, months))/(DecimalEx.Pow(1+monthRate,months)-1);
+            monthPayment = koefAnnuitent * dataInner.LoanSum;
+            decimal vSumPayment = dataInner.LoanSum;
+            for (int i = 0; i < months; i++) 
             {
                 Payment pay = new Payment();
-                pay.PaymentDate = DateTimeOffset.Now;
+                pay.PaymentDate = (DateTimeOffset.Now).AddMonths(1+i);
                 pay.PaymentByBody = i;
                 pay.PamentByPercent = i;
-                pay.BalanceOwed = i;
+                if (i == 0)
+                {
+                    pay.BalanceOwed = vSumPayment;
+                }
+                else
+                {
+                    pay.BalanceOwed=vSumPayment-monthPayment;
+                }
+                
                 payments.Add(pay);
             }
 
