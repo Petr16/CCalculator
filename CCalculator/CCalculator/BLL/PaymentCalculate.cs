@@ -32,16 +32,12 @@ namespace CCalculator.BLL
             _context = context;
         }
 
+        /// <summary>
+        /// Рассчет по месяцам
+        /// </summary>
+        /// <param name="dataInner"></param>
         public void Calculate(DataInner dataInner)
         {
-            //Payment p = new Payment();
-            //p.DataInnerId = dataInner.Id;
-            //p.PaymentDate = DateTimeOffset.Now;
-            //p.PaymentByBody = 1;
-            //p.PamentByPercent = 2;
-            //p.BalanceOwed = 3;
-            //_context.Add(p);
-
             List<Payment> payments = new List<Payment>();
             ushort months = dataInner.LoanTerm;
 
@@ -52,25 +48,86 @@ namespace CCalculator.BLL
             koefAnnuitent = (monthRate * DecimalEx.Pow(1 + monthRate, months))/(DecimalEx.Pow(1+monthRate,months)-1);
             monthPayment = koefAnnuitent * dataInner.LoanSum;
             decimal vSumPayment = dataInner.LoanSum;
+            decimal vPamentByPercent = 0;
+            decimal vPamentByBody = 0;
+            decimal vBalanceOwed = 0;
+            Payment pay = new Payment();
+            pay.DataInnerId = dataInner.Id;
             for (int i = 0; i < months; i++) 
             {
-                Payment pay = new Payment();
-                pay.DataInnerId = dataInner.Id;
                 pay.PaymentDate = (DateTimeOffset.Now).AddMonths(1+i);
-                
-                
+
                 if (i == 0)
                 {
-                    pay.BalanceOwed = vSumPayment;
-                    pay.PamentByPercent = vSumPayment * monthRate;
-                    
-                }
-                else//////////////////TODO
+                    vPamentByPercent = vSumPayment * monthRate;
+                    //Основной долг
+                    vBalanceOwed = monthPayment - vPamentByPercent;
+                } 
+                else
                 {
-                    pay.BalanceOwed=vSumPayment-(monthPayment*(0+i));
-                    pay.PamentByPercent=(vSumPayment-monthPayment)*monthRate;
+                    //остаток кредита
+                    vSumPayment = vSumPayment - vBalanceOwed;
+                    //Проценты
+                    vPamentByPercent = vSumPayment * monthRate;
+                    //Основной долг
+                    vBalanceOwed = monthPayment - vPamentByPercent;
                 }
-                pay.PaymentByBody = monthPayment - pay.PamentByPercent;
+                vPamentByBody = monthPayment - vPamentByPercent;
+
+                pay.PamentByPercent=vPamentByPercent;
+                pay.PaymentByBody = vPamentByBody;
+                pay.BalanceOwed = vSumPayment;
+                payments.Add(pay);
+            }
+
+            _context.AddRange(payments);
+        }
+
+        /// <summary>
+        /// Рассчет по дням
+        /// </summary>
+        /// <param name="dataInner"></param>
+        public void CalculateByDays(DataInner dataInner)
+        {
+            List<Payment> payments = new List<Payment>();
+            ushort months = dataInner.LoanTerm;
+
+            //рассчитываем коэффициент аннуитента
+            yearRate = dataInner.LoanRate / 100;
+            monthRate = yearRate / 12;
+            //koefAnnuitent= (monthRate*Math.Pow(1+monthRate,months))
+            koefAnnuitent = (monthRate * DecimalEx.Pow(1 + monthRate, months)) / (DecimalEx.Pow(1 + monthRate, months) - 1);
+            monthPayment = koefAnnuitent * dataInner.LoanSum;
+            decimal vSumPayment = dataInner.LoanSum;
+            decimal vPamentByPercent = 0;
+            decimal vPamentByBody = 0;
+            decimal vBalanceOwed = 0;
+            Payment pay = new Payment();
+            pay.DataInnerId = dataInner.Id;
+            for (int i = 0; i < months; i++)
+            {
+                pay.PaymentDate = (DateTimeOffset.Now).AddMonths(1 + i);
+
+                if (i == 0)
+                {
+                    vPamentByPercent = vSumPayment * monthRate;
+                    //Основной долг
+                    vBalanceOwed = monthPayment - vPamentByPercent;
+                }
+                else
+                {
+                    //остаток кредита
+                    vSumPayment = vSumPayment - vBalanceOwed;
+                    //Проценты
+                    vPamentByPercent = vSumPayment * monthRate;
+                    //Основной долг
+                    vBalanceOwed = monthPayment - vPamentByPercent;
+                }
+                vPamentByBody = monthPayment - vPamentByPercent;
+
+                pay.PamentByPercent = vPamentByPercent;
+                pay.PaymentByBody = vPamentByBody;
+                pay.BalanceOwed = vSumPayment;
                 payments.Add(pay);
             }
 

@@ -87,6 +87,7 @@ namespace CCalculator.Controllers
                 _context.Add(dataInner);
                 await _context.SaveChangesAsync();
                 p.Calculate(dataInner);
+                //p.CalculatePlateshi(dataInner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
