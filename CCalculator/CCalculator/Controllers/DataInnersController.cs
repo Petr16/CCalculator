@@ -29,8 +29,10 @@ namespace CCalculator.Controllers
         {
             var dataInner = _context.DataInners;
             //return View(await dataInner.ToListAsync());
+            //показать последний рассчет
             var result = from di in _context.DataInners
                          join p in _context.Payments on di.Id equals p.DataInnerId
+                         where di.Id == _context.DataInners.Max(x => x.Id)
                          select new DIP
                          {
                              Id=di.Id,
@@ -40,7 +42,8 @@ namespace CCalculator.Controllers
                              PaymentDate=p.PaymentDate,
                              PaymentByBody=p.PaymentByBody,
                              PamentByPercent=p.PamentByPercent,
-                             BalanceOwed=p.BalanceOwed
+                             BalanceOwed=p.BalanceOwed,
+                             Sequence=p.Sequence
                          };
             return View(await result.ToListAsync());
         }
@@ -77,11 +80,6 @@ namespace CCalculator.Controllers
         public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate")] DataInner dataInner)
         {
             PaymentCalculate p = new PaymentCalculate(_context);
-            //p.DataInnerId= dataInner.Id;
-            //p.PaymentDate=DateTimeOffset.Now;
-            //p.PaymentByBody = 1;
-            //p.PamentByPercent = 1;
-            //dataInner.Pay = p;
             if (ModelState.IsValid)
             {
                 _context.Add(dataInner);

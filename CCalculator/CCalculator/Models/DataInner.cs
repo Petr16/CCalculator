@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace CCalculator.Models
 {
     //[PrimaryKey(nameof(Id))]
@@ -14,20 +15,26 @@ namespace CCalculator.Models
         public int Id { get; set; }
 
 
-        //[Column(TypeName = "decimal(18,9)")]
+        [Required(ErrorMessage = "Поле 'Сумма займа' обязательно для заполнения.")]
+        [CustomValidationAttribute(ErrorMessage = "Значение должно быть больше 0.")]
         /// <summary>
         /// Сумма займа
         /// </summary>
         public decimal LoanSum { get; set; }
 
+        [Required(ErrorMessage = "Поле 'Срок займа' обязательно для заполнения.")]
+        [CustomValidation(ErrorMessage = "Значение должно быть больше 0.")]
+        [IntegerValidation(ErrorMessage ="Значение должно быть целым.")]
         /// <summary>
         /// Срок займа (в месяцах) (0 - 65535)
         /// </summary>
         public ushort LoanTerm { get; set; }
 
+        [Required(ErrorMessage = "Поле 'Процентная ставка' обязательно для заполнения.")]
+        [CustomValidationAttribute(ErrorMessage = "Значение должно быть больше 0.")]
         //[Column(TypeName = "decimal(18,9)")]
         /// <summary>
-        /// Ставка
+        /// Процентная ставка
         /// </summary>
         public decimal LoanRate { get; set;}
 

@@ -15,7 +15,8 @@ namespace CCalculator.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Create","DataInners");
+            ///return View();
         }
 
         public IActionResult Privacy()

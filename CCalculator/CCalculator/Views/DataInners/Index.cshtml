@@ -5,16 +5,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Рассчет аннуитентного платежа</h1>
 
-<p>
+@*<p>
     <a asp-controller="DataInners" asp-action="Create">Create New</a>
     <button id="addData">Add data</button>
-</p>
+</p>*@
+<h2>График выплат</h2>
 <table id="dataInner" class="table">
     <thead>
         <tr>
             <th>
+                №
+            </th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.LoanSum)
             </th>
             <th>
@@ -22,18 +26,18 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LoanRate)
+            </th>*@
+            <th>
+                Дата платежа@*@Html.DisplayNameFor(model => model.PaymentDate)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PaymentDate)
+                Размер платежа по телу@*@Html.DisplayNameFor(model => model.PaymentByBody)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PaymentByBody)
+                Размер платежа по %@*@Html.DisplayNameFor(model => model.PamentByPercent)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PamentByPercent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BalanceOwed)
+                Остаток основного долга@*@Html.DisplayNameFor(model => model.BalanceOwed)*@
             </th>
             <th></th>
         </tr>
@@ -51,6 +55,9 @@
                 @Html.DisplayFor(modelItem => item.LoanRate)
             </td> *@
             <td>
+               @item.Sequence
+            </td>
+            @*<td>
                @item.LoanSum
             </td>
             <td>
@@ -58,7 +65,7 @@
             </td>
             <td>
                 @item.LoanRate
-            </td>
+            </td>*@
             <td>
                 @item.PaymentDate
             </td>
@@ -71,18 +78,19 @@
             <td>
                 @item.BalanceOwed
             </td>
-            <td>
+            @*<td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>
 </table>
 
-<button id="addData">Add data inner</button>
-<a href="@Url.Action("Create", "DataInners")" id="openDataInners">Открыть страницу ввода данных</a>
+@*<button id="addData">Add data inner</button>
+<a href="@Url.Action("Create", "DataInners")" id="openDataInners">Открыть страницу ввода данных</a>*@
+<button onclick="location.href='@Url.Action("Create", "DataInners")'">Открыть страницу ввода данных</button>
 
 <script>
     $(document).ready(function () {

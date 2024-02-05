@@ -47,5 +47,10 @@ namespace CCalculator.Models
         /// Остаток основного долга
         /// </summary>
         public decimal BalanceOwed { get; set; }
+
+        /// <summary>
+        /// Последовательность
+        /// </summary>
+        public int Sequence {  get; set; }
     }
 }

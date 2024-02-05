@@ -30,6 +30,9 @@ namespace CCalculator.Models
         /// Остаток основного долга
         /// </summary>
         public decimal BalanceOwed { get; set; }
+        
+
+        public int Sequence { get; set; }
 
         /// <summary>
         /// Он же и номер платежа - id в таблице DataInners (foreignKey)
