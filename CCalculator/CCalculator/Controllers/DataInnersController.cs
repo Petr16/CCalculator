@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CCalculator.Data;
 using CCalculator.Models;
 using CCalculator.BLL;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CCalculator.Controllers
 {
@@ -88,7 +91,17 @@ namespace CCalculator.Controllers
                 //p.CalculatePlateshi(dataInner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            } /*else
+            {
+                ModelValidationState modelValidationState;
+                modelValidationState.
+                var ms = ModelState.Where(a => a.Key == "LoanTerm").ToList();
+                var vs = ms.Select(vs => vs.Value).Select(vs2 => vs2.ValidationState).ToList().FirstOrDefault();
+                if (vs == ModelValidationState.Invalid)
+                {
+                    throw new Exception(vs.ToString());
+                }
+            }*/
             return View(dataInner);
         }
 
