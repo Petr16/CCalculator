@@ -29,6 +29,11 @@ namespace CCalculator.Models
         public decimal LoanRate { get; set; }
 
         /// <summary>
+        /// Рассчет в днях или месяцах
+        /// </summary>
+        public bool IsDays { get; set; }
+
+        /// <summary>
         /// Дата платежа
         /// </summary>
         public DateTimeOffset PaymentDate { get; set; }

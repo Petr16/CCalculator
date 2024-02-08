@@ -38,6 +38,11 @@ namespace CCalculator.Models
         /// </summary>
         public decimal LoanRate { get; set;}
 
+        /// <summary>
+        /// Рассчет по дням или месяцам
+        /// </summary>
+        public bool IsDays { get; set; }
+
         
         public List<Payment>? Payments { get; set; }
     }
