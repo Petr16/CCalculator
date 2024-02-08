@@ -22,12 +22,12 @@
                 @*<input type="checkbox" id="termToggle" onchange="toggleTermLabel()" />
                 <span>(мес.)/(дн.)</span>*@
                 <div onchange="toggleTermLabel()">
-                    <input type="radio" id="termDays" name="terms" value="дн." />
+                    <input asp-for ="IsDays" type="radio" id="termDays" name="IsDays" value="true" />
                     <label for="termDays">дн.</label>
-                    <input type="radio" id="termMonths" name="terms" value="мес." />
+                    <input type="radio" id="termMonths" name="IsDays" value="false" checked />
                     <label for="termMonths">мес.</label>
                 </div>
-                <input asp-for="LoanTerm" class="form-control" id="loanTermInput" type="number" step="1" title="Введите целое число" />
+                <input asp-for="LoanTerm" class="form-control" type="number" step="1" title="Введите целое число" />
                 <span asp-validation-for="LoanTerm" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,12 +46,27 @@
 
 
     <script>
+
+        $(document).ready(function () {
+            var termDays = document.getElementById('termDays');
+            var termMonths = document.getElementById('termMonths');
+            var termLabel = document.getElementById('loanTermLabel');
+
+            // Базовый текст для метки
+            var baseStr = "Срок погашения займа: ";
+
+            // Проверить, какая радиокнопка выбрана по умолчанию
+            if (termMonths.checked) {
+                termLabel.textContent = baseStr + "(мес.)";
+            } else {
+                termLabel.textContent = baseStr + "(дн.)";
+            }
+        });
+
         function toggleTermLabel() {
-            @*var termLabel = document.querySelector('label[for="loanTermInput"]');*@
             var termLabel = document.getElementById('loanTermLabel');
             var checkboxTerm = document.getElementById('termToggle');
             var termDays = document.getElementById('termDays');
-            var termMonths = document.getElementById('termMonths');
             var termMonths = document.getElementById('termMonths');
             var baseStr = "Срок погашения займа: ";
             console.log(termDays);
@@ -113,10 +128,11 @@
             function validatePositiveInteger(fieldName, errorMessage) {
                 
                 var fieldValue = parseFloat($("#" + fieldName).val());
+                console.log(fieldValue);
                 if (isNaN(fieldValue) || fieldValue <= 0 || fieldValue % 1 !== 0) {
                     $("#" + fieldName).nextAll(".text-danger").remove(); 
-                    @*console.log(fieldName + " / " + fieldValue + " / isNaN(fieldValue) =" + isNaN(fieldValue)+
-                        " / (fieldValue <= 0) =" + (fieldValue <= 0) + " / (fieldValue % 1 !== 0) =" + (fieldValue % 1 !== 0));*@
+                    console.log(fieldName + " / " + fieldValue + " / isNaN(fieldValue) =" + isNaN(fieldValue)+
+                        " / (fieldValue <= 0) =" + (fieldValue <= 0) + " / (fieldValue % 1 !== 0) =" + (fieldValue % 1 !== 0));
                     printElements();
                     var error = $("<span class='text-danger'></span>").text(errorMessage);
                     error.insertAfter($("#" + fieldName));

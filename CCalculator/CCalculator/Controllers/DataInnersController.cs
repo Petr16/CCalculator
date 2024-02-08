@@ -80,7 +80,7 @@ namespace CCalculator.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate")] DataInner dataInner)
+        public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate,IsDays")] DataInner dataInner)
         {
             PaymentCalculate p = new PaymentCalculate(_context);
             if (ModelState.IsValid)
