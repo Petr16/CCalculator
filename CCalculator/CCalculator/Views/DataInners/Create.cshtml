@@ -18,8 +18,16 @@
                 <span asp-validation-for="LoanSum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LoanTerm" class="control-label">Срок погашения займа:</label>
-                <input asp-for="LoanTerm" class="form-control" type="number" step="1" title="Введите целое число" />
+                <label asp-for="LoanTerm" class="control-label" id="loanTermLabel">Срок погашения займа:</label>
+                @*<input type="checkbox" id="termToggle" onchange="toggleTermLabel()" />
+                <span>(мес.)/(дн.)</span>*@
+                <div onchange="toggleTermLabel()">
+                    <input type="radio" id="termDays" name="terms" value="дн." />
+                    <label for="termDays">дн.</label>
+                    <input type="radio" id="termMonths" name="terms" value="мес." />
+                    <label for="termMonths">мес.</label>
+                </div>
+                <input asp-for="LoanTerm" class="form-control" id="loanTermInput" type="number" step="1" title="Введите целое число" />
                 <span asp-validation-for="LoanTerm" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,10 +46,28 @@
 
 
     <script>
+        function toggleTermLabel() {
+            @*var termLabel = document.querySelector('label[for="loanTermInput"]');*@
+            var termLabel = document.getElementById('loanTermLabel');
+            var checkboxTerm = document.getElementById('termToggle');
+            var termDays = document.getElementById('termDays');
+            var termMonths = document.getElementById('termMonths');
+            var termMonths = document.getElementById('termMonths');
+            var baseStr = "Срок погашения займа: ";
+            console.log(termDays);
+            console.log(termMonths);
+            console.log(termDays.checked);
+            console.log(termMonths.checked);
+            if (termMonths.checked) {
+                termLabel.textContent = baseStr + "(мес.)";
+            } else {
+                termLabel.textContent = baseStr + "(дн.)";
+            }
+        };
+
         $(document).ready(function () {
             $("form").submit(function (event) {
                 var isValid = true;
-                
 
                 isValid = isValid && validateField("LoanSum", "Сумма займа должна быть положительной.", parseFloat);
                 isValid = isValid && validatePositiveInteger("LoanTerm", "Срок займа должен быть целым и положительным.");
@@ -60,9 +86,7 @@
                     console.log(input);
                 });
             }
-
-
-            
+  
 
             function validateField(fieldName, errorMessage, parser) {
                 var fieldValue = parser($("#" + fieldName).val());
