@@ -44,7 +44,7 @@ namespace CCalculator.Controllers
                              LoanRate=di.LoanRate,
                              PaymentDate=p.PaymentDate,
                              PaymentByBody=p.PaymentByBody,
-                             PamentByPercent=p.PamentByPercent,
+                             PamentByPercent=p.PaymentByPercent,
                              BalanceOwed=p.BalanceOwed,
                              Sequence=p.Sequence
                          };
@@ -80,15 +80,23 @@ namespace CCalculator.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate,IsDays")] DataInner dataInner)
+        public async Task<IActionResult> Create([Bind("Id,LoanSum,LoanTerm,LoanRate,IsDays,StepPayment")] DataInner dataInner)
         {
             PaymentCalculate p = new PaymentCalculate(_context);
             if (ModelState.IsValid)
             {
                 _context.Add(dataInner);
                 await _context.SaveChangesAsync();
-                p.Calculate(dataInner);
-                //p.CalculatePlateshi(dataInner);
+                if (dataInner.IsDays)
+                {
+                    p.CalculateByDays(dataInner);
+                }
+                else
+                {
+                    p.Calculate(dataInner);
+                }
+                
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             } /*else

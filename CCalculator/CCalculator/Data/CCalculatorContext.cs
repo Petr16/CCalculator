@@ -29,7 +29,7 @@ namespace CCalculator.Data
                 .Property(e => e.PaymentByBody)
                 .HasColumnType("decimal(18,9)");
             modelBuilder.Entity<Payment>()
-                .Property(e => e.PamentByPercent)
+                .Property(e => e.PaymentByPercent)
                 .HasColumnType("decimal(18,9)");
             modelBuilder.Entity<Payment>()
                 .Property(e => e.BalanceOwed)

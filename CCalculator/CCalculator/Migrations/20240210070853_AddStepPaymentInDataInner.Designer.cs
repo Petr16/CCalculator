@@ -4,6 +4,7 @@ using CCalculator.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCalculator.Migrations
 {
     [DbContext(typeof(CCalculatorContext))]
-    partial class CCalculatorContextModelSnapshot : ModelSnapshot
+    [Migration("20240210070853_AddStepPaymentInDataInner")]
+    partial class AddStepPaymentInDataInner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,10 @@ namespace CCalculator.Migrations
                     b.Property<int>("DataInnerId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PaymentByBody")
+                    b.Property<decimal>("PamentByPercent")
                         .HasColumnType("decimal(18,9)");
 
-                    b.Property<decimal>("PaymentByPercent")
+                    b.Property<decimal>("PaymentByBody")
                         .HasColumnType("decimal(18,9)");
 
                     b.Property<DateTimeOffset>("PaymentDate")

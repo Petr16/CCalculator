@@ -26,7 +26,7 @@ namespace CCalculator.Models
         [CustomValidationAttribute(ErrorMessage = "Значение должно быть целым и больше 0.")] //если в ushort падает значение с плавающей запятой, то атрибуты валидации игнорируются, но в итоге ошибка будет типа такой "The value '5.5' is not valid for LoanTerm."
         //[IntegerValidationAttribute(ErrorMessage ="Значение должно быть целым.")]
         /// <summary>
-        /// Срок займа (в месяцах) (0 - 65535)
+        /// Срок займа (в месяцах или днях) (0 - 65535)
         /// </summary>
         public ushort LoanTerm { get; set; }
 
@@ -43,7 +43,11 @@ namespace CCalculator.Models
         /// </summary>
         public bool IsDays { get; set; }
 
-        
+        /// <summary>
+        /// Шаг платежа (в днях)
+        /// </summary>
+        public int StepPayment { get; set; }
+
         public List<Payment>? Payments { get; set; }
     }
 }

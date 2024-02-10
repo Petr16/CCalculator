@@ -24,7 +24,7 @@ namespace CCalculator.Models
         /// <summary>
         /// Размер платежа по %
         /// </summary>
-        public decimal PamentByPercent { get; set; }
+        public decimal PaymentByPercent { get; set; }
 
         /// <summary>
         /// Остаток основного долга
