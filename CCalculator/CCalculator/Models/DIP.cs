@@ -34,6 +34,15 @@ namespace CCalculator.Models
         public bool IsDays { get; set; }
 
         /// <summary>
+        /// Шаг платежа (в днях)
+        /// </summary>
+        public int StepPayment { get; set; }
+
+        public decimal TotalSumPayment { get; set; }
+        public decimal TotalSumPaymentByPercent { get; set; }
+        public decimal TotalSumPaymentByBody { get; set; }
+
+        /// <summary>
         /// Дата платежа
         /// </summary>
         public DateTimeOffset PaymentDate { get; set; }

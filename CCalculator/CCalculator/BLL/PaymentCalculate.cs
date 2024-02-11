@@ -34,6 +34,10 @@ namespace CCalculator.BLL
         /// </summary>
         private decimal dayRate {  get; set; }
 
+        private decimal TotalSumPayment { get; set; }
+        private decimal TotalSumPaymentByPercent { get; set; }
+        private decimal TotalSumPaymentByBody { get; set; }
+
 
         public PaymentCalculate(CCalculatorContext context)
         {
@@ -83,13 +87,19 @@ namespace CCalculator.BLL
                 }
                 vPaymentByBody = monthPayment - vPaymentByPercent;
 
+                TotalSumPaymentByPercent += vPaymentByPercent;
                 pay.PaymentByPercent = vPaymentByPercent;
+
+                TotalSumPaymentByBody += vPaymentByBody;
                 pay.PaymentByBody = vPaymentByBody;
+
                 pay.BalanceOwed = vSumPayment;
                 pay.Sequence = i + 1;
                 payments.Add(pay);
             }
-
+            dataInner.TotalSumPayment = payments.Where(p => p.DataInnerId == dataInner.Id).Sum(a => a.PaymentByBody) + payments.Where(p => p.DataInnerId==dataInner.Id).Sum(a => a.PaymentByPercent);
+            dataInner.TotalSumPaymentByPercent = TotalSumPaymentByPercent;
+            dataInner.TotalSumPaymentByBody = TotalSumPaymentByBody;
             _context.AddRange(payments);
         }
 
@@ -152,15 +162,23 @@ namespace CCalculator.BLL
                     /*vvPaymentByPercent += vPaymentByPercent;
                     vvPaymentByBody += vPaymentByBody;*/
                     rowNum++;
-               /* }*/
-                
+                /* }*/
 
+
+                TotalSumPaymentByPercent += vPaymentByPercent;
                 pay.PaymentByPercent = vPaymentByPercent;
+
+                TotalSumPaymentByBody += vPaymentByBody;
                 pay.PaymentByBody = vPaymentByBody;
+
                 pay.BalanceOwed = vSumPayment;
                 pay.Sequence = i;
                 payments.Add(pay);
             }
+
+            dataInner.TotalSumPayment = payments.Where(p => p.DataInnerId == dataInner.Id).Sum(a => a.PaymentByBody) + payments.Where(p => p.DataInnerId == dataInner.Id).Sum(a => a.PaymentByPercent);
+            dataInner.TotalSumPaymentByPercent = TotalSumPaymentByPercent;
+            dataInner.TotalSumPaymentByBody = TotalSumPaymentByBody;
 
             _context.AddRange(payments);
         }

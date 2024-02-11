@@ -42,6 +42,9 @@ namespace CCalculator.Controllers
                              LoanSum=di.LoanSum,
                              LoanTerm=di.LoanTerm,
                              LoanRate=di.LoanRate,
+                             TotalSumPayment=di.TotalSumPayment,
+                             TotalSumPaymentByPercent=di.TotalSumPaymentByPercent,
+                             TotalSumPaymentByBody=di.TotalSumPaymentByBody,
                              PaymentDate=p.PaymentDate,
                              PaymentByBody=p.PaymentByBody,
                              PamentByPercent=p.PaymentByPercent,
@@ -95,7 +98,13 @@ namespace CCalculator.Controllers
                 {
                     p.Calculate(dataInner);
                 }
-                
+                var newDI = _context.DataInners.Find(dataInner.Id);
+                if (newDI != null)
+                {
+                    newDI.TotalSumPayment=dataInner.TotalSumPayment;
+                    newDI.TotalSumPaymentByPercent=dataInner.TotalSumPaymentByPercent;
+                    newDI.TotalSumPaymentByBody=dataInner.TotalSumPaymentByBody;
+                }
                 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

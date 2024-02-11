@@ -14,7 +14,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="LoanSum" class="control-label">Сумма займа:</label>
-                <input asp-for="LoanSum" class="form-control" type="text" />
+                @*<input asp-for="LoanSum" class="form-control" type="number" step="any" onchange="formatInputValue(this)" />*@
+                <input asp-for="LoanSum" class="form-control" type="number" step="any" />
                 <span asp-validation-for="LoanSum" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,7 +38,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="LoanRate" class="control-label">Процентная ставка (%):</label>
-                <input asp-for="LoanRate" class="form-control" type="text"/>
+                <input asp-for="LoanRate" class="form-control" type="number" step="any" />
                 <span asp-validation-for="LoanRate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -103,13 +104,21 @@
             }
         };
 
+        function formatInputValue(input) {
+            var value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                input.value = value.toFixed(9);
+                console.log(input);
+            }
+        }
+
         $(document).ready(function () {
             $("form").submit(function (event) {
                 var isValid = true;
 
-                isValid = isValid && validateField("LoanSum", "Сумма займа должна быть положительной.", parseFloat);
+                isValid = isValid && validateField("LoanSum", "Сумма займа должна быть положительной.");
                 isValid = isValid && validatePositiveInteger("LoanTerm", "Срок займа должен быть целым и положительным.");
-                isValid = isValid && validateField("LoanRate", "Процентная ставка должна быть положительная.", parseFloat);
+                isValid = isValid && validateField("LoanRate", "Процентная ставка должна быть положительная.");
                 @*console.log($("span[data-valmsg-for='LoanTerm']").text());*@
                 // Если форма не прошла валидацию, предотвратить отправку формы
                 if (!isValid || $("span[data-valmsg-for='LoanTerm']").text() === "Введите целое число") {
@@ -126,24 +135,24 @@
             }
   
 
-            function validateField(fieldName, errorMessage, parser) {
-                var fieldValue = parser($("#" + fieldName).val());
+            function validateField(fieldName, errorMessage) {
+                var fieldValue1 = parseFloat($("#" + fieldName).val());
+                //var fieldValue = parseFloat(fieldValue1.toFixed(9));
                 var error = $("<span class='text-danger'></span>");
+                console.log(fieldValue +" type: "+typeof(fieldValue));
                 if (isNaN(fieldValue) || fieldValue <= 0) {
+                    $("#" + fieldName).nextAll(".text-danger").remove();
+                    console.log(fieldValue);
                     $("#" + fieldName).next(".text-danger").html(errorMessage);
                     error.insertAfter($("#" + fieldName));
                     @*console.log(fieldName + " / " + fieldValue + " / isNaN(fieldValue) =" + isNaN(fieldValue) 
                         + " / (fieldValue <= 0) =" + (fieldValue <= 0));*@
                     return false;
-                } else if (!Number.isInteger(fieldValue)) {
-                    $("#" + fieldName).next(".text-danger").html(errorMessage);
-                    error.insertAfter($("#" + fieldName));
-                    @*console.log(fieldName + " / " + fieldValue + " / !Number.isInteger(fieldValue) =" + !Number.isInteger(fieldValue))*@
-                    return false;
                 }
                 else {
-                    $("#" + fieldName).next(".text-danger").html("");
-                    @*console.log(fieldName + " / " + fieldValue + " - is required!")*@
+                    $("#" + fieldName).nextAll(".text-danger").remove();
+                    @*$("#" + fieldName).next(".text-danger").html("");*@
+                    console.log(fieldName + " / " + fieldValue + " - is required!");
                     return true;
                 }
             }
