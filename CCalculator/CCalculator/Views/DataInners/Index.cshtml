@@ -67,9 +67,9 @@
             <th>
                 Остаток основного долга@*@Html.DisplayNameFor(model => model.BalanceOwed)*@
             </th>
-            <th>
+            @*<th>
                 Ежешаговая плата
-            </th>
+            </th>*@
         </tr>
     </thead>
     <tbody>
@@ -90,13 +90,13 @@
             <td>
                 @Math.Round(@item.BalanceOwed, 2)
             </td>
-            <td>
+            @*<td>
                     @{
                         // Вычисляем сумму платежа для проверки
                         var totalPayment = item.PaymentByBody + item.PamentByPercent;
                     }
                     @Math.Round(@totalPayment,2)
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>
