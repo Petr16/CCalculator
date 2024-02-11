@@ -30,6 +30,9 @@
             <th>
                 Остаток основного долга@*@Html.DisplayNameFor(model => model.BalanceOwed)*@
             </th>
+            <th>
+                Ежешаговая плата
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,6 +53,13 @@
             </td>
             <td>
                 @item.BalanceOwed
+            </td>
+            <td>
+                    @{
+                        // Вычисляем сумму платежа
+                        var totalPayment = item.PaymentByBody + item.PamentByPercent;
+                    }
+                    @totalPayment
             </td>
         </tr>
 }

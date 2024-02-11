@@ -119,20 +119,20 @@ namespace CCalculator.BLL
             decimal vPaymentByPercent = 0;
             decimal vPaymentByBody = 0;
             decimal vBalanceOwed = 0;
-
+            int rowNum = 1;
             for (int i = 1; i <= countPayments; i++)
             {
                 Payment pay = new Payment();
                 pay.DataInnerId = dataInner.Id;
-                vStepNum = (i < countPayments) ? (countPayments*i) : (countPayments * i)+vRemainder;
+                vStepNum = (i < countPayments) ? (dataInner.StepPayment * i) : (dataInner.StepPayment * i)+vRemainder;
                 pay.PaymentDate = (DateTimeOffset.Now).AddDays(vStepNum);
 
                 decimal vvPaymentByPercent = 0;
                 decimal vvPaymentByBody = 0;
-
-                for (int ii = 1; ii <= vStepNum; ii++)
-                {
-                    if (i == 1)
+                
+                /*for (int ii = rowNum; ii <= vStepNum; ii++)
+                {*/
+                    if (i == 1 /*&& ii==1*/)
                     {
                         vPaymentByPercent = vSumPayment * dayRate;
                         //Основной долг
@@ -149,15 +149,16 @@ namespace CCalculator.BLL
                     }
                     vPaymentByBody = stepPayment - vPaymentByPercent;
 
-                    vvPaymentByPercent = vvPaymentByPercent + vPaymentByPercent;
-                    vvPaymentByBody = vvPaymentByBody + vPaymentByBody;
-                }
+                    /*vvPaymentByPercent += vPaymentByPercent;
+                    vvPaymentByBody += vPaymentByBody;*/
+                    rowNum++;
+               /* }*/
                 
 
-                pay.PaymentByPercent = vvPaymentByPercent;
-                pay.PaymentByBody = vvPaymentByBody;
+                pay.PaymentByPercent = vPaymentByPercent;
+                pay.PaymentByBody = vPaymentByBody;
                 pay.BalanceOwed = vSumPayment;
-                pay.Sequence = i + 1;
+                pay.Sequence = i;
                 payments.Add(pay);
             }
 

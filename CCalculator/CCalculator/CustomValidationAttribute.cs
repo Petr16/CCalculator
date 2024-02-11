@@ -22,7 +22,7 @@ namespace CCalculator
             {
                 return new ValidationResult(ErrorMessage ?? "Значение должно быть больше 0.");
             }
-            else if (validationContext.DisplayName == "LoanTerm" && !IsInteger(valueDecimal)) //ErrorMessage== "Значение должно быть целым и больше 0."
+            else if ((validationContext.DisplayName == "LoanTerm" || validationContext.DisplayName == "StepPayment") && !IsInteger(valueDecimal)) //ErrorMessage== "Значение должно быть целым и больше 0."
             {
                 //получается, что это условие будет игнорироваться,
                 //т.к. сам класс валидации не будет использован, если в ushort-свойство захочет упасть значение с плавающей запятой.

@@ -25,6 +25,15 @@ namespace CCalculator.Data
             modelBuilder.Entity<DataInner>()
                 .Property(e => e.LoanRate)
                 .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<DataInner>()
+                .Property(e => e.TotalSumPayment)
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<DataInner>()
+                .Property(e => e.TotalSumPaymentByBody)
+                .HasColumnType("decimal(18,9)");
+            modelBuilder.Entity<DataInner>()
+                .Property(e => e.TotalSumPaymentByPercent)
+                .HasColumnType("decimal(18,9)");
             modelBuilder.Entity<Payment>()
                 .Property(e => e.PaymentByBody)
                 .HasColumnType("decimal(18,9)");

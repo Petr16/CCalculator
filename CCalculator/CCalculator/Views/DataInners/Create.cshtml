@@ -31,6 +31,11 @@
                 <span asp-validation-for="LoanTerm" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="StepPayment" class="control-label" id="StepPaymentLabel">Шаг платежа (дн.)</label>
+                <input asp-for="StepPayment" class="form-control" id="StepPaymentInput" type="number" step="1" title="Введите целое число" />
+                <span asp-validation-for="StepPayment" class="text-danger" id="StepPaymentSpan"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="LoanRate" class="control-label">Процентная ставка (%):</label>
                 <input asp-for="LoanRate" class="form-control" type="text"/>
                 <span asp-validation-for="LoanRate" class="text-danger"></span>
@@ -51,6 +56,9 @@
             var termDays = document.getElementById('termDays');
             var termMonths = document.getElementById('termMonths');
             var termLabel = document.getElementById('loanTermLabel');
+            var stepPaymentLabel = document.getElementById('StepPaymentLabel');
+            var stepPaymentInput = document.getElementById('StepPaymentInput');
+            var stepPaymentSpan = document.getElementById('StepPaymentSpan');
 
             // Базовый текст для метки
             var baseStr = "Срок погашения займа: ";
@@ -58,8 +66,14 @@
             // Проверить, какая радиокнопка выбрана по умолчанию
             if (termMonths.checked) {
                 termLabel.textContent = baseStr + "(мес.)";
+                stepPaymentLabel.hidden = true;
+                stepPaymentInput.hidden = true;
+                stepPaymentSpan.hidden = true;
             } else {
                 termLabel.textContent = baseStr + "(дн.)";
+                stepPaymentLabel.hidden = false;
+                stepPaymentInput.hidden = false;
+                stepPaymentSpan.hidden = false;
             }
         });
 
@@ -68,15 +82,24 @@
             var checkboxTerm = document.getElementById('termToggle');
             var termDays = document.getElementById('termDays');
             var termMonths = document.getElementById('termMonths');
+            var stepPaymentLabel = document.getElementById('StepPaymentLabel');
+            var stepPaymentInput = document.getElementById('StepPaymentInput');
+            var stepPaymentSpan = document.getElementById('StepPaymentSpan');
             var baseStr = "Срок погашения займа: ";
-            console.log(termDays);
-            console.log(termMonths);
-            console.log(termDays.checked);
+            console.log(stepPaymentLabel);
+            console.log(stepPaymentInput);
+            console.log(stepPaymentSpan);
             console.log(termMonths.checked);
             if (termMonths.checked) {
                 termLabel.textContent = baseStr + "(мес.)";
+                stepPaymentLabel.hidden = true;
+                stepPaymentInput.hidden = true;
+                stepPaymentSpan.hidden = true;
             } else {
                 termLabel.textContent = baseStr + "(дн.)";
+                stepPaymentLabel.hidden = false;
+                stepPaymentInput.hidden = false;
+                stepPaymentSpan.hidden = false;
             }
         };
 

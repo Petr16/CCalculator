@@ -23,8 +23,7 @@ namespace CCalculator.Models
         public decimal LoanSum { get; set; }
 
         [Required(ErrorMessage = "Поле 'Срок займа' обязательно для заполнения.")]
-        [CustomValidationAttribute(ErrorMessage = "Значение должно быть целым и больше 0.")] //если в ushort падает значение с плавающей запятой, то атрибуты валидации игнорируются, но в итоге ошибка будет типа такой "The value '5.5' is not valid for LoanTerm."
-        //[IntegerValidationAttribute(ErrorMessage ="Значение должно быть целым.")]
+        [CustomValidationAttribute(ErrorMessage = "Значение должно быть целым и больше 0.")]
         /// <summary>
         /// Срок займа (в месяцах или днях) (0 - 65535)
         /// </summary>
@@ -43,10 +42,18 @@ namespace CCalculator.Models
         /// </summary>
         public bool IsDays { get; set; }
 
+        [Required(ErrorMessage = "Поле 'Шаг платежа' обязательно для заполнения.")]
+        [CustomValidationAttribute(ErrorMessage = "Значение должно быть целым и больше 0.")]
         /// <summary>
         /// Шаг платежа (в днях)
         /// </summary>
         public int StepPayment { get; set; }
+
+
+        public decimal TotalSumPayment {  get; set; }
+        public decimal TotalSumPaymentByPercent { get; set; }
+        public decimal TotalSumPaymentByBody { get; set; }
+
 
         public List<Payment>? Payments { get; set; }
     }
